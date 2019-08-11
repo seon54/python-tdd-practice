@@ -18,7 +18,8 @@ class NewVisitorTest(unittest.TestCase):
 
         # 웹 페이지 타이틀과 헤더가 'To-Do' 표시
         self.assertIn('To-Do', self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('hi').text
+        # header_text = self.browser.find_element_by_tag_name('hi').text
+        header_text = self.browser.find_element_by_id('hi').text
         self.assertIn('To-Do', header_text)
 
         # 작업 추가
@@ -33,7 +34,7 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_element_by_tag_name('tr')
-        self.assertTrue(any(row.text == '1: 공작깃털 사기' for row in rows),)
+        self.assertTrue(any(row.text == '1: 공작깃털 사기' for row in rows), '신규 작업이 테이블에 표시되지 않는다')
 
         # 추가 아이템을 입력할 수 있는 여분의 텍스트 상자 존재
         # 다시 '공작깃털을 이용해서 그물 만들기' 입력
