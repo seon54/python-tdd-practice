@@ -36,7 +36,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # 엔터키 누르면 페이지가 갱신되고 작업 목록에 '1: 공작깃털 사기' 아이템 추가
         inputbox.send_keys(Keys.ENTER)
-        self.check_for_row_in_list_table('1: 공작깃털 사기')
+        # self.check_for_row_in_list_table('1: 공작깃털 사기')
         time.sleep(10)
 
         # 추가 아이템을 입력할 수 있는 여분의 텍스트 상자 존재
@@ -50,7 +50,6 @@ class NewVisitorTest(unittest.TestCase):
         self.check_for_row_in_list_table('1: 공작깃털 사기')
 
         # 사이트에서 입력한 목록을 위한 특정 URL과 설명 함께 제공
-
 
         self.fail('Finish the test!')
 
