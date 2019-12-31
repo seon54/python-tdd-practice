@@ -36,14 +36,27 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(any(row.text == '1: 공작깃털 사기' for row in rows), "신규 작업 작업이 테이블에 표시되지 않는다")
+        # self.assertTrue(any(row.text == '1: 공작깃털 사기' for row in rows),
+        #                 f"신규 작업이 테이블에 표시되지 않는다 - 해당 텍스트:{table.text}")
+        self.assertIn('1: 공작깃털 사기', [row.text for row in rows])
 
         # 추가 아이템을 입력할 수 있는 여분의 텍스트 상자 존재
         # 다시 '공작깃털을 이용해서 그물 만들기' 입력
-        self.fail('Finish the test!')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('공작깃털을 이용해서 그물 만들기')
+        inputbox.send_keys(Keys.ENTER)
+
+        import time
+        time.sleep(1)
 
         # 페이지는 다시 갱신되고, 두 개 아이템이 목록에 보임
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: 공작깃털 사기', [row.text for row in rows])
+        self.assertIn('2: 공작깃털을 이용해서 그물 만들기', [row.text for row in rows])
+
         # 입력한 목록을 저장하는 URL 생성
+        self.fail('Finish the test!')
 
         # 해당 URL에 접속하면 작업 목록 확인 가능
 
