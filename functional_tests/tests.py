@@ -1,11 +1,12 @@
 import os
 import time
 import unittest
+from django.test import LiveServerTestCase
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self) -> None:
         path = os.path.join(os.path.dirname(os.getcwd()), 'geckodriver')
@@ -23,7 +24,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 에디스는 멋진 작업 목록 온라인 앱이 나왔다는 소식을 듣고 웹사이트를 확인하러 간다.
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # 웹 페이지 타이틀과 헤더가 'To-Do' 표시
         self.assertIn('To-Do', self.browser.title)
@@ -57,7 +58,3 @@ class NewVisitorTest(unittest.TestCase):
         self.fail('Finish the test!')
 
         # 해당 URL에 접속하면 작업 목록 확인 가능
-
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
