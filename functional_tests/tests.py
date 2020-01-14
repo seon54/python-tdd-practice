@@ -7,10 +7,11 @@ from selenium import webdriver
 
 
 class NewVisitorTest(LiveServerTestCase):
+    path = os.path.join(os.path.dirname(os.getcwd()), 'geckodriver')
 
     def setUp(self) -> None:
-        path = os.path.join(os.path.dirname(os.getcwd()), 'geckodriver')
-        self.browser = webdriver.Firefox(executable_path=path)
+
+        self.browser = webdriver.Firefox(executable_path=self.path)
         self.browser.implicitly_wait(3)
 
     def tearDown(self) -> None:
@@ -41,6 +42,8 @@ class NewVisitorTest(LiveServerTestCase):
         # 엔터키를 치면 페이지가 갱신되고 작업 목록에
         # '1: 공작깃털 사기' 아이템 추가
         inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
         self.check_for_row_in_list_table("1: 공작깃털 사기")
@@ -50,16 +53,16 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('공작깃털을 이용해서 그물 만들기')
         inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # 페이지는 다시 갱신되고, 두 개 아이템이 목록에 보임
         self.check_for_row_in_list_table("1: 공작깃털 사기")
         self.check_for_row_in_list_table("2: 공작깃털을 이용해서 그물 만들기")
-        time.sleep(1)
 
         ## 새로운 사용자 프란시스 접속
         ## 새로운 브라우저 세션을 이용해 에디스의 정보가 쿠키를 통해 유입되는 것 방지
         self.browser.quit()
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Firefox(executable_path=self.path)
 
         # 프란시스가 홈페이지에 접속하고 에디스의 리스트는 보이지 않음
         self.browser.get(self.live_server_url)
@@ -72,6 +75,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys('우유 사기')
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
+
         # 프란시스가 전용 URL 취득
         francis_list_url = self.browser.current_url
         self.assertRegex(francis_list_url, '/lists/.+')
