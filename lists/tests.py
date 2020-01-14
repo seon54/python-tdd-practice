@@ -79,3 +79,7 @@ class LiveViewTest(TestCase):
 
         self.assertContains(response, 'item 1')
         self.assertContains(response, 'item 2')
+
+    def test_uses_list_template(self):
+        response = self.client.get('/lists/the-only-list-in-the-world/')
+        self.assertTemplateUsed(response, 'list.html')
