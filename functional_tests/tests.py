@@ -1,12 +1,11 @@
 import os
 import time
-import unittest
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     path = os.path.join(os.path.dirname(os.getcwd()), 'geckodriver')
 
     def setUp(self) -> None:
