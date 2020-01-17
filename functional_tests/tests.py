@@ -10,7 +10,6 @@ class NewVisitorTest(LiveServerTestCase):
     path = os.path.join(os.path.dirname(os.getcwd()), 'geckodriver')
 
     def setUp(self) -> None:
-
         self.browser = webdriver.Firefox(executable_path=self.path)
         self.browser.implicitly_wait(3)
 
@@ -88,3 +87,16 @@ class NewVisitorTest(LiveServerTestCase):
 
         # 둘 다 만족하고 잠자리에 든다
 
+    def test_layout_and_styling(self):
+        # 에디스 메인 페이지 방문
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # 입력 상자 가운데 배치
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=10)
+
+        # 새로운 리스트를 시작하고 입력 상자가 가운데에 배치 된 것을 확인
+        inputbox.send_keys('testing\n')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=10)
